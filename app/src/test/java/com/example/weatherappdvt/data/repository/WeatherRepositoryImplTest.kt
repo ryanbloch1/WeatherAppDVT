@@ -43,35 +43,36 @@ class WeatherRepositoryImplTest {
     fun `getCurrentWeather maps API response to domain model`() = runTest {
         val responseBody = """
             {
-              "lat": 51.5,
-              "lon": -0.1,
-              "timezone": "Europe/London",
-              "timezone_offset": 3600,
-              "data": [
+              "coord": {"lon": -0.1, "lat": 51.5},
+              "weather": [
                 {
-                  "dt": 1777449371,
-                  "sunrise": 1777437375,
-                  "sunset": 1777490344,
-                  "temp": 13.27,
-                  "feels_like": 12.17,
-                  "pressure": 1024,
-                  "humidity": 58,
-                  "dew_point": 5.19,
-                  "uvi": 1.55,
-                  "clouds": 0,
-                  "visibility": 10000,
-                  "wind_speed": 8.23,
-                  "wind_deg": 70,
-                  "weather": [
-                    {
-                      "id": 800,
-                      "main": "Clear",
-                      "description": "sky is clear",
-                      "icon": "01d"
-                    }
-                  ]
+                  "id": 800,
+                  "main": "Clear",
+                  "description": "sky is clear",
+                  "icon": "01d"
                 }
-              ]
+              ],
+              "main": {
+                "temp": 13.27,
+                "feels_like": 12.17,
+                "temp_min": 12.5,
+                "temp_max": 14.0,
+                "pressure": 1024,
+                "humidity": 58
+              },
+              "visibility": 10000,
+              "wind": {"speed": 8.23, "deg": 70},
+              "clouds": {"all": 0},
+              "dt": 1777449371,
+              "sys": {
+                "country": "GB",
+                "sunrise": 1777437375,
+                "sunset": 1777490344
+              },
+              "timezone": 0,
+              "id": 2643743,
+              "name": "London",
+              "cod": 200
             }
         """.trimIndent()
 
@@ -79,32 +80,10 @@ class WeatherRepositoryImplTest {
 
         val weather = repository.getCurrentWeather(latitude = 51.5, longitude = -0.1)
 
-        assertEquals("Europe/London", weather.timezone)
+        assertEquals("London", weather.timezone)
         assertEquals(13.27, weather.temp, 0.0)
         assertEquals("sky is clear", weather.description)
         assertEquals("01d", weather.weatherIcon)
         assertEquals(58, weather.humidity)
-    }
-
-    @Test
-    fun `getCurrentWeather throws when data list is empty`() = runTest {
-        val responseBody = """
-            {
-              "lat": 51.5,
-              "lon": -0.1,
-              "timezone": "Europe/London",
-              "timezone_offset": 3600,
-              "data": []
-            }
-        """.trimIndent()
-
-        server.enqueue(MockResponse().setBody(responseBody).setResponseCode(200))
-
-        try {
-            repository.getCurrentWeather(latitude = 51.5, longitude = -0.1)
-            org.junit.Assert.fail("Expected IllegalStateException")
-        } catch (e: IllegalStateException) {
-            assertEquals("No weather data in response", e.message)
-        }
     }
 }

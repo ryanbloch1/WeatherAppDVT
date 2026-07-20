@@ -17,8 +17,6 @@ class WeatherRepositoryImpl @Inject constructor(
             longitude = longitude,
             apiKey = apiKey
         )
-        val weatherData = response.data.firstOrNull()
-            ?: throw IllegalStateException("No weather data in response")
-        return weatherData.toDomain(response.lat, response.lon, response.timezone)
+        return response.toDomain()
     }
 }

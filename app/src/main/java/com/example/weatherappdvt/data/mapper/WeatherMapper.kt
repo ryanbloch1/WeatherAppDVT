@@ -1,26 +1,26 @@
 package com.example.weatherappdvt.data.mapper
 
-import com.example.weatherappdvt.data.remote.dto.WeatherDataDto
+import com.example.weatherappdvt.data.remote.dto.WeatherResponseDto
 import com.example.weatherappdvt.domain.model.Weather
 
-fun WeatherDataDto.toDomain(latitude: Double, longitude: Double, timezone: String): Weather =
+fun WeatherResponseDto.toDomain(): Weather =
     Weather(
-        latitude = latitude,
-        longitude = longitude,
-        timezone = timezone,
+        latitude = coord.lat,
+        longitude = coord.lon,
+        timezone = name,
         timestamp = dt,
-        temp = temp,
-        feelsLike = feelsLike,
-        humidity = humidity,
+        temp = main.temp,
+        feelsLike = main.feelsLike,
+        humidity = main.humidity,
         description = weather.firstOrNull()?.description ?: "Unknown",
         weatherIcon = weather.firstOrNull()?.icon ?: "01d",
-        windSpeed = windSpeed,
-        windDirection = windDeg,
-        pressure = pressure,
-        cloudCoverage = clouds,
-        uvIndex = uvi,
+        windSpeed = wind.speed,
+        windDirection = wind.deg,
+        pressure = main.pressure,
+        cloudCoverage = clouds.all,
+        uvIndex = 0.0,
         visibility = visibility,
-        sunrise = sunrise,
-        sunset = sunset,
-        alerts = alerts ?: emptyList()
+        sunrise = sys.sunrise,
+        sunset = sys.sunset,
+        alerts = emptyList()
     )

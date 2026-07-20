@@ -4,7 +4,6 @@ import app.cash.turbine.test
 import com.example.weatherappdvt.domain.model.Weather
 import com.example.weatherappdvt.domain.repository.WeatherRepository
 import com.example.weatherappdvt.domain.usecase.GetCurrentWeatherUseCase
-import io.mockk.any
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
