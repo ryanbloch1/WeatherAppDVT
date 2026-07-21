@@ -1,7 +1,7 @@
 package com.example.weatherappdvt.domain.repository
 
-import com.example.weatherappdvt.domain.model.Weather
+import com.example.weatherappdvt.domain.model.Forecast
 
 interface WeatherRepository {
-    suspend fun getCurrentWeather(latitude: Double, longitude: Double): Weather
+    suspend fun getForecast(latitude: Double, longitude: Double): Forecast
 }

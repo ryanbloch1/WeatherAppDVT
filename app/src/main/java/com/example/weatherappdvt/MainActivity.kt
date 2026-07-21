@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.weatherappdvt.presentation.weather.WeatherScreen
+import com.example.weatherappdvt.presentation.forecast.ForecastScreen
 import com.example.weatherappdvt.ui.theme.WeatherAppDVTTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             WeatherAppDVTTheme {
-                WeatherScreen()
+                ForecastScreen()
             }
         }
     }

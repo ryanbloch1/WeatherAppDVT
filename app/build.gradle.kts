@@ -67,6 +67,9 @@ dependencies {
     // OkHttp logging
     implementation(libs.okhttp.logging.interceptor)
 
+    // Location
+    implementation(libs.play.services.location)
+
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)

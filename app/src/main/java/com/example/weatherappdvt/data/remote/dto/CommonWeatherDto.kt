@@ -4,22 +4,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class WeatherResponseDto(
-    val coord: CoordDto,
-    val weather: List<WeatherConditionDto>,
-    val main: MainDto,
-    val visibility: Int,
-    val wind: WindDto,
-    val clouds: CloudsDto,
-    val dt: Long,
-    val sys: SysDto,
-    val timezone: Int,
-    val id: Int,
-    val name: String,
-    val cod: Int
-)
-
-@Serializable
 data class CoordDto(
     val lon: Double,
     val lat: Double
@@ -48,15 +32,6 @@ data class WindDto(
 @Serializable
 data class CloudsDto(
     val all: Int
-)
-
-@Serializable
-data class SysDto(
-    val type: Int? = null,
-    val id: Int? = null,
-    val country: String? = null,
-    val sunrise: Long,
-    val sunset: Long
 )
 
 @Serializable
