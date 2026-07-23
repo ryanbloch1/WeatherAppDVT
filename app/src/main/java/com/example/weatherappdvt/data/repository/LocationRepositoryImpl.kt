@@ -25,16 +25,31 @@ class LocationRepositoryImpl @Inject constructor(
 
             continuation.invokeOnCancellation { cancellationTokenSource.cancel() }
 
-            client.getCurrentLocation(Priority.PRIORITY_BALANCED_POWER_ACCURACY, cancellationTokenSource.token)
+            client.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, cancellationTokenSource.token)
                 .addOnSuccessListener { location ->
                     if (location != null) {
                         continuation.resume(
                             LocationCoordinates(latitude = location.latitude, longitude = location.longitude)
                         )
                     } else {
-                        continuation.resumeWithException(
-                            IllegalStateException("Unable to determine current location")
-                        )
+                        client.lastLocation
+                            .addOnSuccessListener { lastLocation ->
+                                if (lastLocation != null) {
+                                    continuation.resume(
+                                        LocationCoordinates(
+                                            latitude = lastLocation.latitude,
+                                            longitude = lastLocation.longitude
+                                        )
+                                    )
+                                } else {
+                                    continuation.resumeWithException(
+                                        IllegalStateException("Unable to determine current location")
+                                    )
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                continuation.resumeWithException(exception)
+                            }
                     }
                 }
                 .addOnFailureListener { exception ->
