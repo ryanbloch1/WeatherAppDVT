@@ -8,6 +8,12 @@ A 5-day weather forecast app for Android, built with Kotlin and Jetpack Compose.
 - Buckets the ~40 three-hour entries the API returns into 5 daily cards, picking the reading closest to local noon as each day's representative temperature.
 - Renders a full-bleed background image matching the current weather condition, with a "5 Day Forecast" title bar and a scrollable list of day cards (day name, weather icon, temperature) on top.
 
+## Screenshots
+
+| Sunny | Rainy |
+|---|---|
+| ![Sunny forecast](docs/screenshot-sunny.png) | ![Rainy forecast](docs/screenshot-rainy.png) |
+
 ## Architecture
 
 Clean Architecture, four layers plus a cross-cutting utilities package, all under `app/src/main/java/com/example/weatherappdvt/`:
