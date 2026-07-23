@@ -40,6 +40,7 @@ class WeatherRepositoryImplTest {
         server.shutdown()
     }
 
+    @Suppress("LongMethod") // long due to the embedded realistic JSON fixture, not actual test logic
     @Test
     fun `getForecast maps API response into 5 daily forecasts`() = runTest {
         // 1970-01-01 (epoch day 0) is a Thursday; five 3-hour entries land on distinct days.

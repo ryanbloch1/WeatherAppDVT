@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.detekt)
+    id("jacoco")
 }
 
 val localProperties = Properties().apply {
@@ -98,4 +100,50 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:${libs.versions.detekt.get()}")
+}
+
+detekt {
+    buildUponDefaultConfig = true
+    config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
+}
+
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+private val jacocoExcludedClasses = listOf(
+    "**/R.class",
+    "**/R\$*.class",
+    "**/BuildConfig.*",
+    "**/Manifest*.*",
+    "**/Hilt_*.*",
+    "**/*_Factory.*",
+    "**/*_MembersInjector.*",
+    "**/*_HiltModules*.*",
+    "**/*_HiltComponents*.*",
+    "dagger/**",
+    "hilt_aggregated_deps/**",
+    "**/di/*",
+    "**/*ComposableSingletons*.*"
+)
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+    dependsOn("testDebugUnitTest")
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+
+    // AGP 9's built-in Kotlin compilation merges Java+Kotlin output here, post ASM transform.
+    val appClasses = fileTree("${layout.buildDirectory.get()}/intermediates/classes/debug/transformDebugClassesWithAsm/dirs") {
+        exclude(jacocoExcludedClasses)
+    }
+    classDirectories.setFrom(files(appClasses))
+    sourceDirectories.setFrom(files("src/main/java"))
+    executionData.setFrom(fileTree(layout.buildDirectory.get()) {
+        include("jacoco/testDebugUnitTest.exec")
+    })
 }

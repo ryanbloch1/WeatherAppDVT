@@ -16,7 +16,13 @@ private const val SECONDS_PER_DAY = 86_400L
 private const val SECONDS_PER_HOUR = 3_600L
 
 // Epoch day 0 (1 Jan 1970) is a known Thursday.
-private fun itemAt(epochDay: Long, hour: Int, temp: Double, main: String = "Clear", icon: String = "01d"): ForecastItemDto {
+private fun itemAt(
+    epochDay: Long,
+    hour: Int,
+    temp: Double,
+    main: String = "Clear",
+    icon: String = "01d"
+): ForecastItemDto {
     val dt = epochDay * SECONDS_PER_DAY + hour * SECONDS_PER_HOUR
     return ForecastItemDto(
         dt = dt,

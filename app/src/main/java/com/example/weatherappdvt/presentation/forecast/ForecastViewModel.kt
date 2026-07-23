@@ -19,6 +19,8 @@ class ForecastViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<ForecastUiState>(ForecastUiState.PermissionRequired)
     val uiState: StateFlow<ForecastUiState> = _uiState
 
+    // Intentional UI error boundary: any failure (location, network, parsing) surfaces as ForecastUiState.Error
+    @Suppress("TooGenericExceptionCaught")
     fun onLocationPermissionGranted() {
         viewModelScope.launch {
             _uiState.value = ForecastUiState.Loading

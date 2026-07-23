@@ -5,10 +5,10 @@ import com.example.weatherappdvt.domain.model.DailyForecast
 import com.example.weatherappdvt.domain.model.Forecast
 import com.example.weatherappdvt.domain.model.LocationCoordinates
 import com.example.weatherappdvt.domain.model.WeatherCondition
-import com.example.weatherappdvt.domain.usecase.GetCurrentLocationUseCase
-import com.example.weatherappdvt.domain.usecase.GetForecastUseCase
 import com.example.weatherappdvt.domain.repository.LocationRepository
 import com.example.weatherappdvt.domain.repository.WeatherRepository
+import com.example.weatherappdvt.domain.usecase.GetCurrentLocationUseCase
+import com.example.weatherappdvt.domain.usecase.GetForecastUseCase
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

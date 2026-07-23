@@ -12,6 +12,8 @@ private val DAY_NAMES_FROM_EPOCH_DAY_ZERO =
 private const val SECONDS_PER_DAY = 86_400L
 private const val SECONDS_PER_HOUR = 3_600L
 private const val NOON_HOUR = 12
+private const val DAYS_IN_WEEK = 7L
+private const val FORECAST_DAY_COUNT = 5
 
 private fun ForecastItemDto.localEpochSeconds(timezoneOffsetSeconds: Int): Long =
     dt + timezoneOffsetSeconds
@@ -25,7 +27,7 @@ private fun localHourOfDay(localEpochSeconds: Long): Int {
 }
 
 private fun dayLabelFor(epochDay: Long): String {
-    val index = Math.floorMod(epochDay, 7L).toInt()
+    val index = Math.floorMod(epochDay, DAYS_IN_WEEK).toInt()
     return DAY_NAMES_FROM_EPOCH_DAY_ZERO[index]
 }
 
@@ -38,7 +40,7 @@ fun ForecastResponseDto.toDomain(): Forecast {
 
     val dailyForecasts = itemsByDay.entries
         .sortedBy { it.key }
-        .take(5)
+        .take(FORECAST_DAY_COUNT)
         .map { (epochDay, items) ->
             val representative = items.minBy { item ->
                 kotlin.math.abs(localHourOfDay(item.localEpochSeconds(timezoneOffset)) - NOON_HOUR)
